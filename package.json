@@ -2,17 +2,37 @@
   "name": "modernslides",
   "version": "0.1.0",
   "description": "This is a modern, very computationally light slideshow maker. It completely separates style rules from content. You can edit it completely online or download the code from github.com/kevincure/ModernSlides  or find more similar tools at kevinbryanecon.com/tools.html  and create your slides locally in your browser. Once your slides are set, click Download. You can upload that json file anywhere and open it with a URL query of the form ?deck=.... For example: https://kevinbryanecon.com/ModernSlides/?deck=Progress2025Class1.  I just toss my slides (in subfolders), the index.html Modern Slides program, and the style-gallery on my website and now never need a USB key. The site loads packages and fonts from the internet in real time.",
-  "main": "index.js",
+  "main": "app/index.js",
   "scripts": {
-    "start": "electron app --no-sandbox",
+    "start": "electron . --no-sandbox",
+    "build": "electron-builder --publish always",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "build": {
+    "appId": "com.jasontdc.modernslides",
+    "productName": "ModernSlides",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "app/**/*"
+    ],
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ]
+    }
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jasontdc/ModernSlides.git"
   },
   "keywords": [],
-  "author": "",
+  "author": {
+    "name": "Jason Davies",
+    "email": "jasontdc@gmail.com"
+  },
   "license": "ISC",
   "type": "commonjs",
   "bugs": {
@@ -20,6 +40,7 @@
   },
   "homepage": "https://github.com/jasontdc/ModernSlides#readme",
   "devDependencies": {
-    "electron": "^44.1.1"
+    "electron": "^44.1.1",
+    "electron-builder": "^26.15.3"
   }
 }
