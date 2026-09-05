@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+<title>ModernSlides JSON</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link id="font-pack" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Alegreya:ital,wght@0,400;0,500;0,700;1,400&family=Anton&family=Archivo:ital,wdth,wght@0,62..125,300..700;1,62..125,300..700&family=Archivo+Black&family=Barlow:wght@300;400;600;800&family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;1,400&family=Baskervville:ital@0;1&family=Baskervville+SC&family=Bebas+Neue&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;1,6..96,400&family=Cabin:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Chivo:ital,wght@0,300;0,400;0,700;0,900;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@400;500;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Epilogue:ital,wght@0,400;0,600;0,700;1,400&family=Familjen+Grotesk:ital,wght@0,400;0,600;0,700;1,400&family=Faustina:ital,wght@0,400;0,500;0,600;1,400&family=Figtree:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Hanken+Grotesk:ital,wght@0,300;0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@400;600;700&family=Instrument+Sans:wght@400;500;600&family=Inter:wght@300;400;500;600;700;900&family=Jost:wght@400;600;700&family=Karla:ital,wght@0,400;0,600;0,700;1,400&family=Lato:ital,wght@0,300;0,400;0,700;1,400&family=Lexend:wght@600;700&family=Libre+Caslon+Display&family=Libre+Franklin:wght@400;600;700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;0,7..72,700;1,7..72,400&family=Lora:ital,wght@0,400;1,400&family=Manrope:wght@400;600;700&family=Marcellus&family=Montserrat:wght@400;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700&family=Petrona:ital,wght@0,400;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@400;600;700&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=Raleway:wght@300;400;600&family=Rokkitt:wght@400;600;700;800&family=Schibsted+Grotesk:ital,wght@0,400;0,500;0,700;1,400&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Space+Grotesk:wght@400;500;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Special+Elite&family=Spectral:ital,wght@0,400;0,600;1,400&family=Work+Sans:ital,wght@0,400;0,600;0,700;1,400&family=Albert+Sans:ital,wght@0,400;0,600;0,700;1,400&family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Caveat:wght@500;600&family=Commissioner:wght@400;500;600;700&family=Eczar:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Geologica:wght@400;500;600;700&family=Gloock&family=Gothic+A1:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Labrada:ital,wght@0,400;0,600;1,400&family=Recursive:wght@400;500;600;700;800&family=Sora:wght@400;500;600;700&family=Spline+Sans:wght@400;500;600;700&family=Syne:wght@400;600;700;800&family=Trirong:ital,wght@0,400;0,600;1,400&family=Urbanist:ital,wght@0,400;0,600;0,700;1,400&family=Vesper+Libre:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  chtml: { scale: 1 },
+  startup: { typeset: false }
+};
+</script>
+<script defer id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+<link id="app-styles" rel="stylesheet" href="app-styles.css">
+</head>
+<body>
+<div id="presentation-view" aria-label="Presentation">
+  <div id="presentation-slot" class="stage-slot"></div>
+  <nav id="mobile-nav" aria-label="Slide navigation">
+    <button id="mobile-prev" type="button" aria-label="Previous">◀</button>
+    <span id="mobile-status">1/1</span>
+    <button id="mobile-next" type="button" aria-label="Next">▶</button>
+  </nav>
+</div>
+
+<div id="editor-view" aria-label="Slide editor">
+  <aside id="thumb-rail"><div id="thumb-list"></div></aside>
+  <main id="editor-main">
+    <div id="workspace">
+      <section id="author-pane">
+        <div id="editor-slide-bar"><span>Slide ID</span><code id="editor-slide-id"></code></div>
+        <textarea id="body-editor" spellcheck="true" aria-label="Slide body syntax" placeholder="Title: New slide&#10;&#10;Text: Write here."></textarea>
+        <div id="format-bar" role="toolbar" aria-label="Text formatting">
+          <button type="button" data-format="bold" title="Bold" aria-label="Bold"><strong>B</strong></button>
+          <button type="button" data-format="italic" title="Italic" aria-label="Italic"><em>I</em></button>
+          <button type="button" data-format="bolditalic" title="Bold italic" aria-label="Bold italic"><strong><em>BI</em></strong></button>
+          <button type="button" data-format="left" title="Align left" aria-label="Align left"><i class="fa-solid fa-align-left"></i></button>
+          <button type="button" data-format="center" title="Align center" aria-label="Align center"><i class="fa-solid fa-align-center"></i></button>
+          <button type="button" data-format="right" title="Align right" aria-label="Align right"><i class="fa-solid fa-align-right"></i></button>
+          <label class="layout-control" for="slide-layout">
+            <span>Layout</span>
+            <select id="slide-layout" title="Slide layout" aria-label="Slide layout">
+              <option value="auto">Auto</option>
+              <option value="top">Top</option>
+              <option value="center">Center</option>
+              <option value="statement">Statement</option>
+              <option value="data">Data</option>
+              <option value="full">Full frame</option>
+            </select>
+          </label>
+        </div>
+        <div id="notes-pane">
+          <div id="notes-tabs">
+            <button id="speaker-tab" type="button" class="active">Speaker Notes</button>
+            <button id="print-tab" type="button">Print Annotations</button>
+          </div>
+          <textarea id="speaker-editor" class="notes-editor" aria-label="Speaker notes" placeholder="Speaker notes"></textarea>
+          <textarea id="print-editor" class="notes-editor hidden" aria-label="Print notes" placeholder="Print notes"></textarea>
+        </div>
+      </section>
+    </div>
+
+    <div id="toolbar" role="toolbar" aria-label="Deck controls">
+      <span class="toolbar-group">
+        <button id="add-slide" type="button" title="Add slide" aria-label="Add slide"><i class="fa-solid fa-plus"></i></button>
+        <button id="delete-slide" class="danger" type="button" title="Delete slide" aria-label="Delete slide"><i class="fa-solid fa-minus"></i></button>
+        <button id="duplicate-slide" type="button" title="Duplicate slide" aria-label="Duplicate slide"><i class="fa-regular fa-copy"></i></button>
+        <button id="toggle-hidden" type="button" title="Hide slide" aria-label="Hide or show slide"><i class="fa-regular fa-eye-slash"></i></button>
+        <button id="toggle-page-numbers" type="button" title="Toggle slide numbers" aria-label="Toggle slide numbers"><i class="fa-solid fa-arrow-down-1-9"></i></button>
+      </span>
+      <label class="sr-only" for="theme-select">Theme</label>
+      <select id="theme-select" title="Theme" aria-label="Theme"></select>
+      <span class="toolbar-group">
+        <button id="undo" type="button" title="Undo" aria-label="Undo" disabled><i class="fa-solid fa-rotate-left"></i></button>
+        <button id="redo" type="button" title="Redo" aria-label="Redo" disabled><i class="fa-solid fa-rotate-right"></i></button>
+        <button id="deck-settings" type="button" title="Deck settings" aria-label="Deck settings"><i class="fa-solid fa-gear"></i></button>
+      </span>
+      <span class="toolbar-spacer"></span>
+      <button id="help-button" type="button" title="Help" aria-label="Help"><i class="fa-solid fa-question"></i></button>
+      <button id="new-deck" type="button" title="New deck" aria-label="New deck"><i class="fa-solid fa-file-circle-plus"></i></button>
+      <button id="load-deck" type="button" title="Load JSON or old text deck" aria-label="Load deck"><i class="fa-solid fa-folder-open"></i></button>
+      <button id="restore-deck" type="button" title="Restore previous deck" aria-label="Restore previous deck" disabled><i class="fa-solid fa-clock-rotate-left"></i></button>
+      <button id="manage-assets" type="button" title="Manage pasted images" aria-label="Manage images"><i class="fa-solid fa-images"></i></button>
+      <button id="view-json" type="button" title="View canonical JSON" aria-label="View JSON"><i class="fa-solid fa-code"></i></button>
+      <button id="save-deck" type="button" title="Save deck" aria-label="Save deck"><i class="fa-solid fa-floppy-disk"></i></button>
+      <button id="publish-deck" type="button" title="Publish deck" aria-label="Publish deck"><i class="fa-solid fa-cloud-arrow-up"></i></button>
+      <button id="speaker-button" type="button" title="Speaker view (S)" aria-label="Speaker view"><i class="fa-solid fa-person-chalkboard"></i></button>
+      <button id="print-deck" type="button" title="Print slides (P)" aria-label="Print slides"><i class="fa-solid fa-print"></i></button>
+      <button id="print-notes" type="button" title="Print slides with notes (N)" aria-label="Print slides with notes"><i class="fa-regular fa-note-sticky"></i></button>
+      <button id="present-button" class="primary" type="button" title="Presentation view (E)" aria-label="Presentation view"><i class="fa-solid fa-bullhorn"></i></button>
+    </div>
+
+    <div id="statusbar">
+      <span id="warning-status"></span>
+      <span id="render-status"></span>
+      <span id="save-status">Ready</span>
+    </div>
+  </main>
+</div>
+
+<div id="publish-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="publish-title">
+  <div class="modal-card publish-card">
+    <h2 id="publish-title">Publish deck</h2>
+
+    <p class="publish-intro">
+      Publish this deck directly to this website. Embedded pasted images are already
+      contained inside the deck, so only one JSON file is uploaded.
+    </p>
+
+    <div class="publish-field">
+      <label for="publish-name">Filename / folder name</label>
+      <input
+        id="publish-name"
+        type="text"
+        maxlength="64"
+        autocomplete="off"
+        spellcheck="false"
+      >
+      <div class="publish-field-help">
+        Spaces are converted to hyphens. The published folder and JSON file use the same name.
+      </div>
+    </div>
+
+    <div class="publish-destination">
+      <span class="publish-destination-label">Will publish to</span>
+      <code id="publish-destination">ModernSlides/example/example.json</code>
+    </div>
+
+    <p class="publish-readme">
+      <strong>First time using Publish?</strong>
+      Read the <a href="README.md" target="_blank" rel="noopener">ModernSlides README</a>
+      before setting up server publishing.
+    </p>
+
+    <p id="publish-error" class="publish-error hidden"></p>
+
+    <div class="modal-actions">
+      <button type="button" data-close-modal="publish-modal">Cancel</button>
+      <button id="confirm-publish" type="button">Publish</button>
+    </div>
+  </div>
+</div>
+
+<div id="help-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="help-title">
+  <div class="modal-card wide">
+    <h2 id="help-title">ModernSlides syntax</h2>
+    <div class="help-grid">
+      <section>
+        <h3>Blocks</h3>
+        <pre>Title: The Baumol Effect
+Header: Comparison
+BigText: Why is progress slow?
+Text: Standard text.
+Text(1.4): Scaled text.
+SmallText: Supporting text.
+TinyText: Footnote.
+Quote(Baumol and Bowen): Quote text.
+Image(60%): image.jpg | Caption
+Break: 1.5
+Rule:
+Website: https://example.com
+Code(python):
+  print("hi")
+End
+Aside: On-slide annotation
+Background: image.jpg
+Background(full): image.jpg</pre>
+      </section>
+      <section>
+        <h3>Containers</h3>
+        <pre>Columns(2,1; valign=top):
+Text: Left column.
+Image: chart.png | Caption
+---
+Text: Right column.
+End
+
+Table(widths=2,1,1; header=1; columnAlign=l,r,r):
+Period | Fast | Slow
+$t=0$ | 20 hrs | 80 hrs
+$t=1$ | 10 hrs | **80 hrs**
+End</pre>
+      </section>
+      <section>
+        <h3>Inline and reveals</h3>
+        <pre>**bold**  *italic*  ***both***
+[text](https://example.com)
+[go to slide](#slide-id)
+$E=mc^2$ and $$x^2$$
+\* literal star, \| literal pipe, \$ literal dollar
+Text(align=left): left aligned
+Text(align=center): centered
+Text(align=right): right aligned
+- bullet
++ bullet
+1. numbered item
+
+Text(steps):
+- first click
+- second click
+- third click
+
+Text: Visible from the start.
+
+[Step 1]
+Text: Appears on the first advance.
+[End Step 1]
+
+[Step 2]
+BigText: Appears on the second advance.
+[End Step 2]</pre>
+      </section>
+      <section>
+        <h3>Keyboard</h3>
+        <pre>E   edit / present
+F   fullscreen
+S   speaker window
+P   print slides
+N   print with notes
+← → previous / next step or slide
+Home / End first / last slide
+Esc leave fullscreen or presentation
+
+In the editor:
+t: Title      b: BigText
+x: Text       s: SmallText
+y: TinyText   I: Image
+C: Columns    T: Table
+q: Quote      F: Background(full)
+W: Website</pre>
+      </section>
+      <section>
+        <h3>Arguments</h3>
+        <pre>Use semicolons between arguments.
+
+Text(step=2): appears at step 2
+Text(step=1-3): visible steps 1 through 3
+Text(align=center): centered block
+Image(width=60%; fit=cover; focus=65% 40%): image.jpg
+Website(poster=preview.jpg): https://example.com
+Table(header=1; headercol=1; columnAlign=l,r):
+
+Code(python): labels the code block as Python.</pre>
+      </section>
+      <section>
+        <p><a class="help-gallery-link" href="style-gallery.html" target="_blank" rel="noopener"><i class="fa-solid fa-table-cells-large"></i> View style gallery</a></p>
+      </section>
+    </div>
+    <div class="modal-actions"><button type="button" data-close-modal="help-modal">Close</button></div>
+  </div>
+</div>
+
+<div id="assets-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="assets-title">
+  <div class="modal-card wide">
+    <h2 id="assets-title">Embedded images</h2>
+    <p>Pasted and dropped images are stored inside the downloaded JSON file.</p>
+    <div id="asset-list"></div>
+    <div class="modal-actions"><button type="button" data-close-modal="assets-modal">Close</button></div>
+  </div>
+</div>
+
+<div id="json-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="json-title">
+  <div class="modal-card wide">
+    <h2 id="json-title">Canonical JSON</h2>
+    <textarea id="json-view" readonly spellcheck="false"></textarea>
+    <div class="modal-actions"><button type="button" data-close-modal="json-modal">Close</button></div>
+  </div>
+</div>
+
+<div id="settings-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="settings-title">
+  <div class="modal-card">
+    <h2 id="settings-title">Deck settings</h2>
+    <div class="settings-grid">
+      <div class="field wide"><label for="setting-title">Title</label><input id="setting-title" type="text"></div>
+      <div class="field"><label for="setting-author">Author</label><input id="setting-author" type="text"></div>
+      <div class="field"><label for="setting-date">Date</label><input id="setting-date" type="text"></div>
+      <div class="field wide"><label for="setting-footer">Footer</label><input id="setting-footer" type="text"></div>
+      <div class="field wide"><label for="setting-logo">Logo URL or asset:id</label><input id="setting-logo" type="text"></div>
+    </div>
+    <div class="modal-actions">
+      <button type="button" data-close-modal="settings-modal">Cancel</button>
+      <button id="save-settings" type="button">Save</button>
+    </div>
+  </div>
+</div>
+
+<input id="file-input" type="file" class="hidden" accept=".json,.txt,application/json,text/plain">
+<div id="render-bank" aria-hidden="true"></div>
+<div id="print-root"></div>
+
+<script id="app-script" src="app.js" ></script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+# Dependencies
+node_modules/
+jspm_packages/
+
+# Electron / App Build Outputs
+dist/
+build/
+out/
+release/
+*.app/
+*.exe/
+*.dmg/
+*.pkg/
+*.deb/
+*.rpm/
+*.snap/
+
+# Native Modules & Rebuild Artifacts
+build/Release/
+*.node
+
+# Environment Variables & Secrets
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# IDE & Editor Files
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Devcontainer
+# Un-comment the line below if you want to keep devcontainer configs local only
+# .devcontainer/
+
+# OS Generated Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Testing & Coverage
+coverage/
+.nyc_output/
+
+# Temporary Files & Cache
+.cache/
+.eslintcache
+.parcel-cache/
