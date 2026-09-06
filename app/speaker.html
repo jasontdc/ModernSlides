@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <!-- Local Fonts and Shared App Styles -->
+  <link rel="stylesheet" href="styles.css">
+  
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [["$","$"], ["\\(","\\)"]], displayMath: [["$$","$$"], ["\\[","\\]"]], processEscapes: true },
+      startup: { typeset: false }
+    };
+  </script>
+  <!-- Use a local bundled copy of MathJax for offline support -->
+  <script defer src="./vendor/mathjax/tex-mml-chtml.js"></script>
+</head>
+<body class="speaker-body">
+  <section class="speaker-panel">
+    <div class="speaker-label">Current</div>
+    <div id="speaker-current" class="speaker-slot"></div>
+  </section>
+
+  <section class="speaker-panel">
+    <div class="speaker-label">Next</div>
+    <div id="speaker-next" class="speaker-slot"></div>
+  </section>
+
+  <section class="speaker-notes">
+    <div id="speaker-note-text" class="speaker-note-text"></div>
+    <div class="speaker-tools">
+      <div id="speaker-timer" class="speaker-timer">00:00</div>
+      <div class="speaker-buttons">
+        <button id="btn-prev">Previous</button>
+        <button id="btn-next">Next</button>
+        <button id="btn-reset">Reset</button>
+      </div>
+    </div>
+  </section>
+
+  <script src="speaker.js"></script>
+</body>
+</html>

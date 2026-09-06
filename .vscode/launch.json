@@ -1,0 +1,38 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+    "name": "Debug Electron Main",
+    "type": "node",
+    "request": "launch",
+    "cwd": "${workspaceFolder}",
+    "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron",
+    "windows": {
+        "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron.cmd"
+    },
+    "args": [
+        "app/main.js",
+        "--remote-debugging-port=9222",
+        "--no-sandbox",
+        "--disable-setuid-sandbox",
+        "--disable-gpu"
+    ],
+    "outputCapture": "std",
+    "console": "integratedTerminal"
+    },
+    {
+      "name": "Attach to Electron Renderer",
+      "type": "chrome",
+      "request": "attach",
+      "port": 9222,
+      "webRoot": "${workspaceFolder}/app",
+      "timeout": 30000
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Debug Electron (Main + Renderer)",
+      "configurations": ["Debug Electron Main", "Attach to Electron Renderer"]
+    }
+  ]
+}

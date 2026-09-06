@@ -2049,8 +2049,7 @@ function toggleEdit(force) {
   });
 }
 function toggleFullscreen() {
-  if (!document.fullscreenElement) document.documentElement.requestFullscreen?.().catch(() => {});
-  else document.exitFullscreen?.();
+  window.electronAPI.toggleFullscreen();
 }
 function nextStepOrSlide() {
   ensurePresentableCurrent();
@@ -2089,108 +2088,77 @@ function goLast() {
 }
 
 /* ---------- Speaker window ---------- */
-function speakerDocumentHTML() {
-  const styles = $('app-styles').textContent;
-  const fontHref = $('font-pack').href;
-  return `<!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="${fontHref}"><style>${styles}</style>
-<script>window.MathJax={tex:{inlineMath:[[\"$\",\"$\"],[\"\\\\(\",\"\\\\)\"]],displayMath:[[\"$$\",\"$$\"],[\"\\\\[\",\"\\\\]\"]],processEscapes:true},startup:{typeset:false}};<\/script>
-<script defer src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"><\/script></head>
-<body class="speaker-body">
-<section class="speaker-panel"><div class="speaker-label">Current</div><div id="speaker-current" class="speaker-slot"></div></section>
-<section class="speaker-panel"><div class="speaker-label">Next</div><div id="speaker-next" class="speaker-slot"></div></section>
-<section class="speaker-notes"><div id="speaker-note-text" class="speaker-note-text"></div><div class="speaker-tools"><div id="speaker-timer" class="speaker-timer">00:00</div><div class="speaker-buttons"><button onclick="opener.ModernSlidesAPI.previous()">Previous</button><button onclick="opener.ModernSlidesAPI.next()">Next</button><button onclick="opener.ModernSlidesAPI.resetTimer()">Reset</button></div></div></section>
-<script>
-window.fitSpeakerSlides=function(){document.querySelectorAll('.speaker-slot').forEach(function(slot){var frame=slot.querySelector('.slide-frame');if(!frame)return;var s=Math.max(.01,Math.min(slot.clientWidth/1600,slot.clientHeight/900));frame.style.transform='scale('+s+')';frame.style.left=((slot.clientWidth-1600*s)/2)+'px';frame.style.top=((slot.clientHeight-900*s)/2)+'px';});};
-window.addEventListener('resize',window.fitSpeakerSlides);
-<\/script></body></html>`;
-}
-function openSpeaker() {
-  if (state.speakerWindow && !state.speakerWindow.closed) {
-    state.speakerWindow.focus();
-    syncSpeaker();
-    return;
-  }
-  const popup = window.open('', 'ModernSlidesSpeaker', 'width=1400,height=900');
-  if (!popup) { alert('Allow popups to use speaker view.'); return; }
-  popup.document.open();
-  popup.document.write(speakerDocumentHTML());
-  popup.document.close();
-  state.speakerWindow = popup;
+async function openSpeaker() {
+  await window.electronAPI.openSpeakerWindow();
+
   state.speakerStartedAt = Date.now();
-  clearInterval(state.speakerTimer);
+  
+  if (state.speakerTimer) clearInterval(state.speakerTimer);
   state.speakerTimer = window.setInterval(updateSpeakerTimer, 500);
-  popup.addEventListener('beforeunload', () => {
-    clearInterval(state.speakerTimer);
-    state.speakerTimer = null;
-    state.speakerWindow = null;
-  }, {once:true});
+
   window.setTimeout(syncSpeaker, 120);
 }
-function resetSpeakerTimer() { state.speakerStartedAt = Date.now(); updateSpeakerTimer(); }
+
+// Listen for control actions coming from the speaker window
+window.electronAPI.onSpeakerAction((action) => {
+  if (action === 'previous') ModernSlidesAPI.previous();
+  else if (action === 'next') ModernSlidesAPI.next();
+  else if (action === 'resetTimer') ModernSlidesAPI.resetTimer();
+});
+
+function resetSpeakerTimer() { 
+  state.speakerStartedAt = Date.now(); 
+  updateSpeakerTimer(); 
+}
+
 function updateSpeakerTimer() {
-  const popup = state.speakerWindow;
-  if (!popup || popup.closed) return;
   const seconds = Math.max(0, Math.floor((Date.now() - state.speakerStartedAt) / 1000));
   const text = `${String(Math.floor(seconds / 60)).padStart(2,'0')}:${String(seconds % 60).padStart(2,'0')}`;
-  const target = popup.document.getElementById('speaker-timer');
-  if (target) target.textContent = text;
+  
+  window.electronAPI.updateSpeakerTimer(text);
 }
+
+// Extract styles from current document and send via IPC
 function copyMathStylesToSpeaker() {
-  const popup = state.speakerWindow;
-  if (!popup || popup.closed) return;
+  const styles = [];
   document.querySelectorAll('style[id*="MJX"], style[data-mathjax]').forEach(style => {
-    if (!style.id) return;
-    let target = popup.document.getElementById(style.id);
-    if (!target) {
-      target = popup.document.createElement('style');
-      target.id = style.id;
-      popup.document.head.appendChild(target);
+    if (style.id) {
+      styles.push({ id: style.id, content: style.textContent });
     }
-    target.textContent = style.textContent;
   });
+  if (styles.length > 0) {
+    window.electronAPI.syncSpeakerMathStyles(styles);
+  }
 }
+
 function syncSpeaker({preserveLive = false} = {}) {
-  const popup = state.speakerWindow;
-  if (!popup || popup.closed || !state.deck) return;
+  if (!state.deck) return;
   ensurePresentableCurrent();
+  
   const slide = currentSlide();
   const visible = visibleSlides();
   const index = visible.findIndex(item => item.id === slide.id);
   const next = index >= 0 ? visible[index + 1] : null;
-  const currentSlot = popup.document.getElementById('speaker-current');
-  const nextSlot = popup.document.getElementById('speaker-next');
-  if (!currentSlot || !nextSlot) { window.setTimeout(() => syncSpeaker({preserveLive}), 100); return; }
-  const existingCurrent = currentSlot.querySelector('.slide-frame');
-  if (preserveLive && existingCurrent?.dataset.slideId === slide.id) {
-    applyReveal(existingCurrent, state.currentStep);
-  } else {
-    const currentFrame = cloneFrame(slide.id, state.currentStep);
-    if (currentFrame) {
-      const importedCurrent = popup.document.importNode(currentFrame, true);
-      activateLiveWebsites(importedCurrent);
-      currentSlot.replaceChildren(importedCurrent);
-    } else currentSlot.replaceChildren(popup.document.createTextNode(''));
-  }
-  const existingNext = nextSlot.querySelector('.slide-frame');
-  if (!(preserveLive && next && existingNext?.dataset.slideId === next.id)) {
-    if (next) {
-      const nextFrame = cloneFrame(next.id, 0);
-      nextSlot.replaceChildren(nextFrame ? popup.document.importNode(nextFrame, true) : popup.document.createTextNode(''));
-    } else {
-      const end = popup.document.createElement('div');
-      end.style.cssText = 'display:grid;place-items:center;width:100%;height:100%;color:#888;font:600 1.4rem Inter,sans-serif;';
-      end.textContent = 'End of presentation';
-      nextSlot.replaceChildren(end);
-    }
-  }
-  const notes = popup.document.getElementById('speaker-note-text');
-  notes.innerHTML = noteMarkup(slide.speaker || '*No speaker notes.*');
+
+  // Build current and next slide frames locally in main renderer
+  const currentFrame = cloneFrame(slide.id, state.currentStep);
+  const nextFrame = next ? cloneFrame(next.id, 0) : null;
+
+  // Package slide HTML and notes data into a clean payload
+  const payload = {
+    preserveLive,
+    slideId: slide.id,
+    currentHTML: currentFrame ? currentFrame.outerHTML : '',
+    nextSlideId: next ? next.id : null,
+    nextHTML: nextFrame ? nextFrame.outerHTML : null,
+    notesHTML: noteMarkup(slide.speaker || '*No speaker notes.*'),
+    currentStep: state.currentStep
+  };
+
+  // Send payload over IPC
+  window.electronAPI.syncSpeakerData(payload);
+  
   copyMathStylesToSpeaker();
-  popup.fitSpeakerSlides?.();
-  popup.document.fonts?.ready?.then(() => popup.fitSpeakerSlides?.());
-  if (popup.MathJax?.startup?.promise) popup.MathJax.startup.promise.then(() => popup.MathJax.typesetPromise?.([notes])).catch(() => {});
   updateSpeakerTimer();
 }
 
@@ -2205,6 +2173,7 @@ function fitPrintNotes(root) {
     }
   });
 }
+
 async function preparePrint(withNotes) {
   if (state.editMode) commitEditor({record:true});
   await scheduleRender('print');
@@ -2212,7 +2181,9 @@ async function preparePrint(withNotes) {
   root.classList.add('print-preparing');
   root.replaceChildren();
   const noteElements = [];
+
   visibleSlides().forEach(slide => {
+
     const page = document.createElement('section');
     page.className = `print-page ${withNotes ? 'with-notes' : 'no-notes'}`;
     const box = document.createElement('div');
@@ -2229,14 +2200,23 @@ async function preparePrint(withNotes) {
     }
     root.appendChild(page);
   });
+  
   for (const notes of noteElements) await typeset(notes);
+
   await waitForAssets(root);
   fitPrintNotes(root);
   await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+
   state.printPrepared = true;
   root.classList.remove('print-preparing');
-  window.print();
+  
+  // Replace window.print() with Electron IPC call
+  await window.electronAPI.triggerPrint();
+
+  // Clean up DOM print tree automatically after OS dialog completes
+  cleanupPrint();
 }
+
 function cleanupPrint() {
   if (!state.printPrepared) return;
   $('print-root').classList.remove('print-preparing');
@@ -2502,31 +2482,32 @@ async function canWriteHandle(handle) {
   } catch { return true; }
 }
 async function saveDeck() {
-  if (state.editMode) commitEditor({record:true});
+  if (state.editMode) commitEditor({ record: true });
   const text = JSON.stringify(state.deck, null, 2);
+  
+  const defaultName = state.filename?.endsWith('.json') 
+    ? state.filename 
+    : `${slugify(state.deck?.meta?.title || 'presentation')}.json`;
+
   try {
-    let handle = state.fileHandle;
-    if (!handle && 'showSaveFilePicker' in window) {
-      handle = await window.showSaveFilePicker({
-        suggestedName: state.filename?.endsWith('.json') ? state.filename : `${slugify(state.deck.meta.title,'presentation')}.json`,
-        types:[{description:'ModernSlides JSON', accept:{'application/json':['.json']}}]
-      });
-    }
-    if (handle && await canWriteHandle(handle)) {
-      const writable = await handle.createWritable();
-      await writable.write(text); await writable.close();
-      state.fileHandle = handle;
-      state.filename = handle.name || state.filename;
-      storageSet(STORAGE_CURRENT_NAME, state.filename);
-      setStatus(`Saved ${state.filename}`, 'saved');
-      return;
-    }
+    const result = await window.electronAPI.saveFile({
+      content: text,
+      defaultName: defaultName,
+      filePath: state.filePath || null // Pass existing path if already saved
+    });
+
+    if (!result) return; // User canceled
+
+    // Update internal tracking state with native file paths
+    state.filePath = result.filePath;
+    state.filename = result.filename;
+    
+    storageSet(STORAGE_CURRENT_NAME, state.filename);
+    setStatus(`Saved ${state.filename}`, 'saved');
   } catch (error) {
-    if (error?.name === 'AbortError') return;
-    console.warn('Save File Picker failed; falling back to download.', error);
+    console.error('Failed to save file deck:', error);
+    setStatus('Save failed', 'error');
   }
-  fallbackDownloadDeck(text);
-  setStatus('Downloaded deck', 'saved');
 }
 function normalizePublishName(value) {
   let name = String(value ?? '').trim();
@@ -2780,18 +2761,15 @@ async function publishDeck() {
   }
 }
 async function openDeck() {
-  if ('showOpenFilePicker' in window) {
-    try {
-      const [handle] = await window.showOpenFilePicker({multiple:false, types:[{description:'ModernSlides deck', accept:{'application/json':['.json'], 'text/plain':['.txt']}}]});
-      if (!handle) return;
-      await loadFile(await handle.getFile(), {fileHandle:handle});
-      return;
-    } catch (error) {
-      if (error?.name === 'AbortError') return;
-      console.warn('Open File Picker failed; using file input.', error);
-    }
+  try {
+    const fileData = await window.electronAPI.openFile();
+    if (!fileData) return; // User canceled the dialog
+
+    // Pass file content and file path directly to your loading utility
+    await loadFile(fileData.content, { filePath: fileData.filePath });
+  } catch (error) {
+    console.error('Failed to open file deck:', error);
   }
-  $('file-input').click();
 }
 
 /* ---------- Assets ---------- */
@@ -3836,12 +3814,20 @@ function setupEvents() {
   $('mobile-prev').addEventListener('click', previousStepOrSlide);
   $('mobile-next').addEventListener('click', nextStepOrSlide);
 
-  document.addEventListener('keydown', event => {
+  document.addEventListener('keydown', async event => {
     const modal = document.querySelector('.modal.open');
     const inEditorField = event.target instanceof Element && event.target.closest('textarea,input,select');
     if (event.key === 'Escape') {
       if (modal) { closeModal(modal.id); event.preventDefault(); return; }
-      if (document.fullscreenElement) { document.exitFullscreen?.(); event.preventDefault(); return; }
+
+      // Check native Electron fullscreen state via IPC (or HTML5 fallback)
+      const isFullscreen = await window.electronAPI.isFullscreen?.() || Boolean(document.fullscreenElement);
+      if (isFullscreen) { 
+        window.electronAPI.exitFullscreen?.() || document.exitFullscreen?.(); 
+        event.preventDefault(); 
+        return; 
+      }
+
       if (state.editMode) { toggleEdit(false); event.preventDefault(); }
       return;
     }
