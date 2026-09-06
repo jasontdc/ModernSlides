@@ -2435,10 +2435,35 @@ async function applyDeck(deck, {filename = 'presentation.json', baseUrl = state.
   autosave();
   await scheduleRender('load');
 }
-async function loadFile(file, {fileHandle = null} = {}) {
-  const text = await file.text();
-  const deck = deckFromText(text, file.name);
-  await applyDeck(deck, {filename:file.name.replace(/\.(txt|json)$/i, '') + '.json', baseUrl:new URL('.', location.href).href, fileHandle});
+async function loadFile(file, { fileHandle = null, filePath = null } = {}) {
+  let text = '';
+  let fileName = 'presentation.json';
+
+  // 1. Resolve string content vs File object
+  if (typeof file === 'string') {
+    text = file;
+    if (filePath) {
+      fileName = filePath.split(/[/\\]/).pop();
+    }
+  } else if (file && typeof file.text === 'function') {
+    text = await file.text();
+    fileName = file.name || fileName;
+  } else {
+    throw new TypeError('Invalid file payload passed to loadFile');
+  }
+
+  // 2. Track native file path state for subsequent saves
+  if (filePath) {
+    state.filePath = filePath;
+  }
+
+  // 3. Process and apply deck data
+  const deck = deckFromText(text, fileName);
+  await applyDeck(deck, {
+    filename: fileName.replace(/\.(txt|json)$/i, '') + '.json',
+    baseUrl: new URL('.', location.href).href,
+    fileHandle
+  });
 }
 function candidateUrls(deckValue) {
   const value = String(deckValue || '').trim();
