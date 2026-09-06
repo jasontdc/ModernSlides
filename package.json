@@ -6,7 +6,7 @@
   "scripts": {
     "start": "electron . --no-sandbox",
     "build": "electron-builder --publish always",
-    "postinstall": "shx mkdir -p ./app/vendor/mathjax ./app/vendor/fontawesome && shx cp -r node_modules/mathjax/* ./app/vendor/mathjax && shx cp -r node_modules/@fortawesome/fontawesome-free/* ./app/vendor/fontawesome",
+    "postinstall": "shx mkdir -p ./app/vendor/mathjax ./app/vendor/fontawesome ./app/vendor/fonts && shx cp -r node_modules/mathjax/* ./app/vendor/mathjax && shx cp -r node_modules/@fortawesome/fontawesome-free/* ./app/vendor/fontawesome && shx cp -r node_modules/@fontsource/* ./app/vendor/fonts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "build": {
@@ -62,5 +62,28 @@
     "electron-builder": "^26.15.3",
     "mathjax": "^4.1.3",
     "shx": "^0.4.0"
+  },
+  "dependencies": {
+    "@fontsource/barlow": "^5.3.0",
+    "@fontsource/bodoni-moda": "^5.3.0",
+    "@fontsource/crimson-text": "^5.3.0",
+    "@fontsource/dm-sans": "^5.3.0",
+    "@fontsource/eb-garamond": "^5.3.0",
+    "@fontsource/ibm-plex-sans-condensed": "^5.3.0",
+    "@fontsource/instrument-sans": "^5.3.0",
+    "@fontsource/inter": "^5.3.0",
+    "@fontsource/jost": "^5.3.0",
+    "@fontsource/lato": "^5.3.0",
+    "@fontsource/lexend": "^5.3.0",
+    "@fontsource/libre-franklin": "^5.3.0",
+    "@fontsource/newsreader": "^5.3.0",
+    "@fontsource/noto-serif": "^5.3.0",
+    "@fontsource/playfair-display": "^5.3.0",
+    "@fontsource/poppins": "^5.3.0",
+    "@fontsource/public-sans": "^5.3.0",
+    "@fontsource/raleway": "^5.3.0",
+    "@fontsource/rokkitt": "^5.3.0",
+    "@fontsource/source-serif-4": "^5.3.0",
+    "@fontsource/space-mono": "^5.3.0"
   }
 }

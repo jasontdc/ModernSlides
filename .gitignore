@@ -3,7 +3,7 @@ node_modules/
 jspm_packages/
 
 # Vendor packages
-app/vendor/mathjax/
+app/vendor/
 
 # Electron / App Build Outputs
 dist/
