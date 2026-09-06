@@ -1653,7 +1653,7 @@ body.edit-mode #presentation-view { visibility: hidden; pointer-events: none; }
 .modal-card.wide { width:min(1050px,97vw); }
 .modal-card h2 { margin:.1rem 0 1rem; }
 .modal-actions { display:flex; justify-content:flex-end; gap:.55rem; margin-top:1rem; }
-.modal-actions button { padding:.5rem .8rem; border:1px solid #bbb; border-radius:.35rem; background:#fff; }
+.modal-actions button { padding:.5rem .8rem; border:1px solid #bbb; border-radius:.35rem; /*background:#fff;*/ }
 .help-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:1rem; }
 .help-grid pre { overflow:auto; padding:.8rem; border-radius:.4rem; background:#f4f2ed; font: .78rem/1.45 var(--ui-mono); white-space:pre-wrap; }
 #asset-list { display:grid; gap:.6rem; }
