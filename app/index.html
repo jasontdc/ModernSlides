@@ -93,7 +93,6 @@ window.MathJax = {
       <button id="manage-assets" type="button" title="Manage pasted images" aria-label="Manage images"><i class="fa-solid fa-images"></i></button>
       <button id="view-json" type="button" title="View canonical JSON" aria-label="View JSON"><i class="fa-solid fa-code"></i></button>
       <button id="save-deck" type="button" title="Save deck" aria-label="Save deck"><i class="fa-solid fa-floppy-disk"></i></button>
-      <button id="publish-deck" type="button" title="Publish deck" aria-label="Publish deck"><i class="fa-solid fa-cloud-arrow-up"></i></button>
       <button id="speaker-button" type="button" title="Speaker view (S)" aria-label="Speaker view"><i class="fa-solid fa-person-chalkboard"></i></button>
       <button id="print-deck" type="button" title="Print slides (P)" aria-label="Print slides"><i class="fa-solid fa-print"></i></button>
       <button id="print-notes" type="button" title="Print slides with notes (N)" aria-label="Print slides with notes"><i class="fa-regular fa-note-sticky"></i></button>
@@ -106,49 +105,6 @@ window.MathJax = {
       <span id="save-status">Ready</span>
     </div>
   </main>
-</div>
-
-<div id="publish-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="publish-title">
-  <div class="modal-card publish-card">
-    <h2 id="publish-title">Publish deck</h2>
-
-    <p class="publish-intro">
-      Publish this deck directly to this website. Embedded pasted images are already
-      contained inside the deck, so only one JSON file is uploaded.
-    </p>
-
-    <div class="publish-field">
-      <label for="publish-name">Filename / folder name</label>
-      <input
-        id="publish-name"
-        type="text"
-        maxlength="64"
-        autocomplete="off"
-        spellcheck="false"
-      >
-      <div class="publish-field-help">
-        Spaces are converted to hyphens. The published folder and JSON file use the same name.
-      </div>
-    </div>
-
-    <div class="publish-destination">
-      <span class="publish-destination-label">Will publish to</span>
-      <code id="publish-destination">ModernSlides/example/example.json</code>
-    </div>
-
-    <p class="publish-readme">
-      <strong>First time using Publish?</strong>
-      Read the <a href="README.md" target="_blank" rel="noopener">ModernSlides README</a>
-      before setting up server publishing.
-    </p>
-
-    <p id="publish-error" class="publish-error hidden"></p>
-
-    <div class="modal-actions">
-      <button type="button" data-close-modal="publish-modal">Cancel</button>
-      <button id="confirm-publish" type="button">Publish</button>
-    </div>
-  </div>
 </div>
 
 <div id="help-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="help-title">
