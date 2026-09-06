@@ -1,6 +1,6 @@
 {
   "name": "modernslides",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "This is a modern, very computationally light slideshow maker. It completely separates style rules from content. You can edit it completely online or download the code from github.com/kevincure/ModernSlides  or find more similar tools at kevinbryanecon.com/tools.html  and create your slides locally in your browser. Once your slides are set, click Download. You can upload that json file anywhere and open it with a URL query of the form ?deck=.... For example: https://kevinbryanecon.com/ModernSlides/?deck=Progress2025Class1.  I just toss my slides (in subfolders), the index.html Modern Slides program, and the style-gallery on my website and now never need a USB key. The site loads packages and fonts from the internet in real time.",
   "main": "app/main.js",
   "scripts": {
@@ -18,11 +18,22 @@
     "files": [
       "app/**/*"
     ],
+    "win": {
+      "target": [
+        "portable"
+      ]
+    },
+    "mac": {
+        "target": ["zip"],
+        "identity": null
+      },    
     "linux": {
       "target": [
-        "AppImage",
-        "deb"
+        "AppImage"
       ]
+    },
+    "portable": {
+      "artifactName": "${productName}-${version}.exe"
     }
   },
   "repository": {
