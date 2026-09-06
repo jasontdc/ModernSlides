@@ -6,7 +6,7 @@
   "scripts": {
     "start": "electron . --no-sandbox",
     "build": "electron-builder --publish always",
-    "postinstall": "shx mkdir -p ./app/vendor/mathjax && shx cp -r node_modules/mathjax/* ./app/vendor/mathjax",
+    "postinstall": "shx mkdir -p ./app/vendor/mathjax ./app/vendor/fontawesome && shx cp -r node_modules/mathjax/* ./app/vendor/mathjax && shx cp -r node_modules/@fortawesome/fontawesome-free/* ./app/vendor/fontawesome",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "build": {
@@ -27,9 +27,11 @@
       ]
     },
     "mac": {
-        "target": ["zip"],
-        "identity": null
-      },    
+      "target": [
+        "zip"
+      ],
+      "identity": null
+    },
     "linux": {
       "target": [
         "AppImage"
@@ -55,6 +57,7 @@
   },
   "homepage": "https://github.com/jasontdc/ModernSlides#readme",
   "devDependencies": {
+    "@fortawesome/fontawesome-free": "^7.3.1",
     "electron": "^44.1.1",
     "electron-builder": "^26.15.3",
     "mathjax": "^4.1.3",
