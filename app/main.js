@@ -1,6 +1,22 @@
-const { app, BrowserWindow, ipcMain, dialog } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, protocol, net } = require('electron');
 const path = require('path');
 const fs = require('fs').promises;
+const { pathToFileURL } = require('url');
+
+// Register privileges BEFORE the app is ready.
+// Marking standard, secure, and supportFetch prevents CORS/CSP issues with font files.
+protocol.registerSchemesAsPrivileged([
+  {
+    scheme: 'app',
+    privileges: {
+      standard: true,
+      secure: true,
+      supportFetchAPI: true,
+      corsEnabled: true,
+      stream: true
+    }
+  }
+]);
 
 let mainWindow = null; // Reference to the main app window
 let speakerWindow = null;
@@ -112,7 +128,7 @@ ipcMain.handle('open-speaker-window', (event) => {
   });
 
   // Load the html file directly
-  speakerWindow.loadFile(path.join(__dirname, 'speaker.html'));
+  speakerWindow.loadURL('app://local/speaker.html');
 
   speakerWindow.on('closed', () => {
     speakerWindow = null;
@@ -157,7 +173,8 @@ function createWindow() {
     }
   });
 
-  mainWindow.loadFile(path.join(__dirname, 'index.html'));
+  // Load the window using custom app protocol instead of file://
+  mainWindow.loadURL('app://local/index.html');
 
   mainWindow.on('closed', () => {
     mainWindow = null;
@@ -165,11 +182,28 @@ function createWindow() {
 }
 
 app.whenReady().then(() => {
-  createWindow();
+  // Handle 'app://local/...' requests
+  protocol.handle('app', (request) => {
+    // Parse out the relative path from 'app://local/'
+    const url = new URL(request.url);
+    let relativePath = url.pathname; // e.g. "/index.html" or "/vendor/fonts/..."
 
-  app.on('activate', () => {
-    if (BrowserWindow.getAllWindows().length === 0) createWindow();
+    // Strip leading slash for path joining
+    if (relativePath.startsWith('/')) {
+      relativePath = relativePath.slice(1);
+    }
+
+    // Resolve absolute path on disk
+    const absolutePath = path.join(__dirname, relativePath);
+
+    return net.fetch(pathToFileURL(absolutePath).toString());
   });
+
+  createWindow();
+});
+
+app.on('activate', () => {
+  if (BrowserWindow.getAllWindows().length === 0) createWindow();
 });
 
 app.on('window-all-closed', () => {
