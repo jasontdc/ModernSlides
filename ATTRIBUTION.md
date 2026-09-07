@@ -1,1 +1,2 @@
+Developed with assistance from **Gemini (Google AI)** for architectural guidance, CI/CD pipeline optimization, and performance debugging.
 The application icon (/assets/icon.png) was generated using Gemini.
