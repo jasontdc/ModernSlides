@@ -6,7 +6,18 @@
 <meta name="color-scheme" content="light dark">
 <title>ModernSlides JSON</title>
 <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
-<link id="font-pack" rel="stylesheet" href="styles/fonts.css">
+<script>
+window.addEventListener('DOMContentLoaded', () => {
+  // Allow UI to draw first, then inject fonts
+  requestAnimationFrame(() => {
+    const fontLink = document.createElement('link');
+    fontLink.id = 'font-pack';
+    fontLink.rel = 'stylesheet';
+    fontLink.href = './styles/fonts.css';
+    document.head.appendChild(fontLink);
+  });
+});
+</script>
 <script>
 window.MathJax = {
   tex: {
