@@ -7,7 +7,6 @@ app/vendor/
 
 # Electron / App Build Outputs
 dist/
-build/
 out/
 release/
 *.app/

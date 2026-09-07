@@ -1,0 +1,1 @@
+The application icon (/assets/icon.png) was generated using Gemini.

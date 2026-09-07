@@ -12,6 +12,7 @@
   "build": {
     "appId": "com.jasontdc.modernslides",
     "productName": "ModernSlides",
+    "buildResources": "build",
     "directories": {
       "output": "dist"
     },
