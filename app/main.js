@@ -173,6 +173,30 @@ function createWindow() {
     }
   });
 
+  // Intercept new window requests (target="_blank" or window.open)
+  mainWindow.webContents.setWindowOpenHandler(({ url }) => {
+    // Check if the link is an external web link
+    if (url.startsWith('http:') || url.startsWith('https:')) {
+      shell.openExternal(url); // Open in OS default browser
+      return { action: 'deny' }; // Prevent Electron from spawning an app window
+    }
+    
+    // Internal local relative links -> Allow Electron to open as a native child window
+    return {
+      action: 'allow',
+      overrideBrowserWindowOptions: {
+        width: 1000,
+        height: 700,
+        autoHideMenuBar: true,
+        webPreferences: {
+          preload: path.join(__dirname, 'preload.js'),
+          nodeIntegration: false,
+          contextIsolation: true
+        }
+      }
+    };
+  });
+
   // Load the window using custom app protocol instead of file://
   mainWindow.loadURL('app://local/index.html');
 
