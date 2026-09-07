@@ -18,6 +18,7 @@ protocol.registerSchemesAsPrivileged([
   }
 ]);
 
+let splashWindow = null;
 let mainWindow = null; // Reference to the main app window
 let speakerWindow = null;
 
@@ -163,9 +164,27 @@ ipcMain.on('sync-speaker-math-styles', (event, styles) => {
 });
 
 function createWindow() {
+  // Create a lightweight splash screen window
+  splashWindow = new BrowserWindow({
+    width: 400,
+    height: 300,
+    frame: false,            // Removes window borders/titlebar
+    transparent: true,      // Allows rounded corners / shadows
+    alwaysOnTop: true,
+    center: true,
+    show: true,              // Displays immediately
+    webPreferences: {
+      nodeIntegration: false,
+      contextIsolation: true
+    }
+  });
+
+  splashWindow.loadURL('app://local/splash.html');
+
   mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
+    show: false, // Wait to show until we give the app a chance to load
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
@@ -196,6 +215,16 @@ function createWindow() {
       }
     };
   });
+
+  // Force a 3-second delay before revealing the main window to allow everything to load
+  setTimeout(() => {
+    console.log('Main window finished loading.');
+    if (splashWindow && !splashWindow.isDestroyed()) {
+      splashWindow.close();  // Close splash screen
+    }
+    mainWindow.show();       // Fade in or display main window
+    mainWindow.focus();      // Focus on main window
+  }, 3000);
 
   // Load the window using custom app protocol instead of file://
   mainWindow.loadURL('app://local/index.html');
