@@ -50,7 +50,7 @@
     "name": "Jason Davies",
     "email": "jasontdc@gmail.com"
   },
-  "license": "ISC",
+  "license": "MIT",
   "type": "commonjs",
   "bugs": {
     "url": "https://github.com/jasontdc/ModernSlides/issues"
